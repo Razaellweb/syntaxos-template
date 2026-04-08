@@ -1,0 +1,6 @@
+{
+  "$schema": "./manifest.schema.json",
+  "version": "1.0",
+  "description": "Registry of self-contained service wrappers available in this template. Each wrapper is a single TypeScript file under src/lib/services/<provider>.ts that wraps an official provider SDK. The backend agent reads this manifest when copying wrappers into a product to know which npm dependencies to add and which environment variables to collect from the user.",
+  "wrappers": {}
+}

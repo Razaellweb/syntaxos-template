@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SyntaxOS Service Wrapper Manifest",
+  "description": "Registry of self-contained service wrappers available in this template.",
+  "type": "object",
+  "required": ["version", "wrappers"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Manifest schema version"
+    },
+    "description": {
+      "type": "string"
+    },
+    "wrappers": {
+      "type": "object",
+      "description": "Map of provider_id -> wrapper metadata",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["file", "category", "deps", "env"],
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "Path to the wrapper file relative to the template root (e.g. 'src/lib/services/paystack.ts')"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "payment",
+              "email",
+              "database",
+              "storage",
+              "auth",
+              "analytics",
+              "sms",
+              "ai",
+              "search",
+              "queue",
+              "monitoring",
+              "other"
+            ],
+            "description": "High-level category the service belongs to"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Human-friendly name (e.g. 'Paystack')"
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of what the wrapper provides"
+          },
+          "sdk_package": {
+            "type": "string",
+            "description": "Name of the official provider SDK package this wrapper shims (e.g. 'paystack-sdk')"
+          },
+          "deps": {
+            "type": "array",
+            "description": "npm dependencies that must be added to the product's package.json when this wrapper is copied in. Each entry is in 'name@version' form.",
+            "items": {
+              "type": "string",
+              "pattern": "^[^@]+@.+$"
+            }
+          },
+          "env": {
+            "type": "array",
+            "description": "Environment variables required by this wrapper. Collected from the user at deploy time.",
+            "items": {
+              "type": "object",
+              "required": ["name"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Env var name (e.g. 'PAYSTACK_SECRET_KEY')"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Human description of what this variable is for"
+                },
+                "example": {
+                  "type": "string",
+                  "description": "Example value (never a real secret)"
+                },
+                "required": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Whether this variable is required for the wrapper to function"
+                },
+                "group": {
+                  "type": "string",
+                  "description": "Logical group for UI display (defaults to the provider display_name)"
+                }
+              }
+            }
+          },
+          "exports": {
+            "type": "object",
+            "description": "What the wrapper file exports for product code to import",
+            "properties": {
+              "class": {
+                "type": "string",
+                "description": "Named class export (e.g. 'PaystackService')"
+              },
+              "singleton": {
+                "type": "string",
+                "description": "Named singleton instance export (e.g. 'paystack')"
+              }
+            }
+          },
+          "version": {
+            "type": "string",
+            "description": "Semver of this wrapper file"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
