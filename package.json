@@ -11,9 +11,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
+    "@supabase/supabase-js": "^2.102.1",
     "next": "14.2.15",
+    "openai": "^6.33.0",
+    "paystack-sdk": "^3.7.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "resend": "^6.10.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

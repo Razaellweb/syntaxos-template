@@ -2,5 +2,177 @@
   "$schema": "./manifest.schema.json",
   "version": "1.0",
   "description": "Registry of self-contained service wrappers available in this template. Each wrapper is a single TypeScript file under src/lib/services/<provider>.ts that wraps an official provider SDK. The backend agent reads this manifest when copying wrappers into a product to know which npm dependencies to add and which environment variables to collect from the user.",
-  "wrappers": {}
+  "wrappers": {
+    "supabase": {
+      "file": "src/lib/services/supabase.ts",
+      "category": "database",
+      "display_name": "Supabase",
+      "description": "Postgres database, auth, storage, and realtime via the official @supabase/supabase-js v2 client. Exposes both anon and service-role clients with normalized error handling.",
+      "sdk_package": "@supabase/supabase-js",
+      "deps": ["@supabase/supabase-js@^2.102.1"],
+      "env": [
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_URL",
+          "description": "Your Supabase project URL (Project Settings -> API).",
+          "example": "https://abcdefgh.supabase.co",
+          "required": true,
+          "group": "Supabase"
+        },
+        {
+          "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+          "description": "Public anon key — safe to expose in the browser. Used for public client operations.",
+          "example": "eyJhbGciOi...",
+          "required": true,
+          "group": "Supabase"
+        },
+        {
+          "name": "SUPABASE_SERVICE_ROLE_KEY",
+          "description": "Service-role key — server-side only. Bypasses RLS. Required when using `supabase.admin`.",
+          "example": "eyJhbGciOi...service_role...",
+          "required": false,
+          "group": "Supabase"
+        }
+      ],
+      "exports": {
+        "class": "SupabaseService",
+        "singleton": "supabase"
+      },
+      "version": "1.0.0",
+      "generated_at": "2026-04-08T00:00:00Z"
+    },
+    "paystack": {
+      "file": "src/lib/services/paystack.ts",
+      "category": "payment",
+      "display_name": "Paystack",
+      "description": "Card payments, transfers, subscriptions, and customer management via the official paystack-sdk. Provides a .run() helper that converts the SDK's union response shape into normalized errors.",
+      "sdk_package": "paystack-sdk",
+      "deps": ["paystack-sdk@^3.7.0"],
+      "env": [
+        {
+          "name": "PAYSTACK_SECRET_KEY",
+          "description": "Paystack secret key (sk_test_... or sk_live_...). Server-side only — never expose.",
+          "example": "sk_test_xxxxxxxxxxxxxxxx",
+          "required": true,
+          "group": "Paystack"
+        },
+        {
+          "name": "NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY",
+          "description": "Paystack public key (pk_test_... or pk_live_...). Used by the inline checkout widget in the browser.",
+          "example": "pk_test_xxxxxxxxxxxxxxxx",
+          "required": false,
+          "group": "Paystack"
+        }
+      ],
+      "exports": {
+        "class": "PaystackService",
+        "singleton": "paystack"
+      },
+      "version": "1.0.0",
+      "generated_at": "2026-04-08T00:00:00Z"
+    },
+    "resend": {
+      "file": "src/lib/services/resend.ts",
+      "category": "email",
+      "display_name": "Resend",
+      "description": "Transactional email via the official resend SDK. Wraps the no-throw {data,error} response shape into normalized errors and exposes a sendEmail() shortcut with a default From address.",
+      "sdk_package": "resend",
+      "deps": ["resend@^6.10.0"],
+      "env": [
+        {
+          "name": "RESEND_API_KEY",
+          "description": "Resend API key (re_...). Create one at https://resend.com/api-keys.",
+          "example": "re_xxxxxxxxxxxxxxxxxxxxx",
+          "required": true,
+          "group": "Resend"
+        },
+        {
+          "name": "RESEND_FROM_EMAIL",
+          "description": "Default sender address (must be on a verified domain).",
+          "example": "noreply@example.com",
+          "required": false,
+          "group": "Resend"
+        }
+      ],
+      "exports": {
+        "class": "ResendService",
+        "singleton": "resend"
+      },
+      "version": "1.0.0",
+      "generated_at": "2026-04-08T00:00:00Z"
+    },
+    "sendgrid": {
+      "file": "src/lib/services/sendgrid.ts",
+      "category": "email",
+      "display_name": "SendGrid",
+      "description": "Transactional and bulk email via @sendgrid/mail. Lazily configures the API key on first use and normalizes thrown ResponseError objects into typed errors.",
+      "sdk_package": "@sendgrid/mail",
+      "deps": ["@sendgrid/mail@^8.1.6"],
+      "env": [
+        {
+          "name": "SENDGRID_API_KEY",
+          "description": "SendGrid API key with at least Mail Send permission.",
+          "example": "SG.xxxxxxxxxxxxxxxxxxxxxx",
+          "required": true,
+          "group": "SendGrid"
+        },
+        {
+          "name": "SENDGRID_FROM_EMAIL",
+          "description": "Default sender address (must be a verified single sender or domain).",
+          "example": "noreply@example.com",
+          "required": false,
+          "group": "SendGrid"
+        }
+      ],
+      "exports": {
+        "class": "SendGridService",
+        "singleton": "sendgrid"
+      },
+      "version": "1.0.0",
+      "generated_at": "2026-04-08T00:00:00Z"
+    },
+    "openrouter": {
+      "file": "src/lib/services/openrouter.ts",
+      "category": "ai",
+      "display_name": "OpenRouter",
+      "description": "Unified access to 200+ LLMs via OpenRouter's OpenAI-compatible API. Uses the official openai SDK pointed at https://openrouter.ai/api/v1 for chat completions, embeddings, and model listing.",
+      "sdk_package": "openai",
+      "deps": ["openai@^6.33.0"],
+      "env": [
+        {
+          "name": "OPENROUTER_API_KEY",
+          "description": "OpenRouter API key (sk-or-v1-...). Create one at https://openrouter.ai/keys.",
+          "example": "sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxx",
+          "required": true,
+          "group": "OpenRouter"
+        },
+        {
+          "name": "OPENROUTER_DEFAULT_MODEL",
+          "description": "Default model slug used by chat() when no model is provided.",
+          "example": "openai/gpt-4o-mini",
+          "required": false,
+          "group": "OpenRouter"
+        },
+        {
+          "name": "OPENROUTER_HTTP_REFERER",
+          "description": "App URL sent as the HTTP-Referer header so OpenRouter can attribute traffic to your app on the leaderboard.",
+          "example": "https://your-app.com",
+          "required": false,
+          "group": "OpenRouter"
+        },
+        {
+          "name": "OPENROUTER_X_TITLE",
+          "description": "App name sent as the X-Title header for OpenRouter analytics.",
+          "example": "My App",
+          "required": false,
+          "group": "OpenRouter"
+        }
+      ],
+      "exports": {
+        "class": "OpenRouterService",
+        "singleton": "openrouter"
+      },
+      "version": "1.0.0",
+      "generated_at": "2026-04-08T00:00:00Z"
+    }
+  }
 }
