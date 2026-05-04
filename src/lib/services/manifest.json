@@ -173,6 +173,50 @@
       },
       "version": "1.0.0",
       "generated_at": "2026-04-08T00:00:00Z"
+    },
+    "qoreid": {
+      "file": "src/lib/services/qoreid.ts",
+      "category": "other",
+      "display_name": "QoreID",
+      "description": "Identity, KYC, biometric, address, business, and asset verification across Africa via QoreID's REST API. Hand-rolled fetch client (QoreID has no first-party Node SDK) with OAuth2 client-credentials token caching, 401 retry, and HMAC-SHA512 webhook signature verification.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        {
+          "name": "QOREID_CLIENT_ID",
+          "description": "QoreID client ID (from Dashboard -> API Keys). Used to obtain a Bearer token at /token.",
+          "example": "qoreid_live_xxxxxxxxxxxx",
+          "required": true,
+          "group": "QoreID"
+        },
+        {
+          "name": "QOREID_CLIENT_SECRET",
+          "description": "QoreID client secret (from Dashboard -> API Keys). Server-side only — never expose.",
+          "example": "qoreid_secret_xxxxxxxxxxxx",
+          "required": true,
+          "group": "QoreID"
+        },
+        {
+          "name": "QOREID_BASE_URL",
+          "description": "Override the API base URL. Defaults to https://api.qoreid.com — only set this for testing or self-hosted proxies.",
+          "example": "https://api.qoreid.com",
+          "required": false,
+          "group": "QoreID"
+        },
+        {
+          "name": "QOREID_WEBHOOK_SECRET",
+          "description": "Secret used to verify inbound QoreID webhook signatures (HMAC-SHA512 over raw body, sent as x-qoreid-signature). Only required if you receive webhooks.",
+          "example": "whsec_xxxxxxxxxxxx",
+          "required": false,
+          "group": "QoreID"
+        }
+      ],
+      "exports": {
+        "class": "QoreIdService",
+        "singleton": "qoreid"
+      },
+      "version": "1.0.0",
+      "generated_at": "2026-05-05T00:00:00Z"
     }
   }
 }
