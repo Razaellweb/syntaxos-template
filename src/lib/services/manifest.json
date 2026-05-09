@@ -9,7 +9,10 @@
       "display_name": "Supabase",
       "description": "Postgres database, auth, storage, and realtime via the official @supabase/supabase-js v2 client. Exposes both anon and service-role clients with normalized error handling.",
       "sdk_package": "@supabase/supabase-js",
-      "deps": ["@supabase/supabase-js@^2.102.1"],
+      "deps": [
+        "@supabase/supabase-js@^2.102.1",
+        "@supabase/ssr@latest"
+      ],
       "env": [
         {
           "name": "NEXT_PUBLIC_SUPABASE_URL",
@@ -20,14 +23,14 @@
         },
         {
           "name": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-          "description": "Public anon key — safe to expose in the browser. Used for public client operations.",
+          "description": "Public anon key \u2014 safe to expose in the browser. Used for public client operations.",
           "example": "eyJhbGciOi...",
           "required": true,
           "group": "Supabase"
         },
         {
           "name": "SUPABASE_SERVICE_ROLE_KEY",
-          "description": "Service-role key — server-side only. Bypasses RLS. Required when using `supabase.admin`.",
+          "description": "Service-role key \u2014 server-side only. Bypasses RLS. Required when using `supabase.admin`.",
           "example": "eyJhbGciOi...service_role...",
           "required": false,
           "group": "Supabase"
@@ -46,11 +49,13 @@
       "display_name": "Paystack",
       "description": "Card payments, transfers, subscriptions, and customer management via the official paystack-sdk. Provides a .run() helper that converts the SDK's union response shape into normalized errors.",
       "sdk_package": "paystack-sdk",
-      "deps": ["paystack-sdk@^3.7.0"],
+      "deps": [
+        "paystack-sdk@^3.7.0"
+      ],
       "env": [
         {
           "name": "PAYSTACK_SECRET_KEY",
-          "description": "Paystack secret key (sk_test_... or sk_live_...). Server-side only — never expose.",
+          "description": "Paystack secret key (sk_test_... or sk_live_...). Server-side only \u2014 never expose.",
           "example": "sk_test_xxxxxxxxxxxxxxxx",
           "required": true,
           "group": "Paystack"
@@ -76,7 +81,9 @@
       "display_name": "Resend",
       "description": "Transactional email via the official resend SDK. Wraps the no-throw {data,error} response shape into normalized errors and exposes a sendEmail() shortcut with a default From address.",
       "sdk_package": "resend",
-      "deps": ["resend@^6.10.0"],
+      "deps": [
+        "resend@^6.10.0"
+      ],
       "env": [
         {
           "name": "RESEND_API_KEY",
@@ -106,7 +113,9 @@
       "display_name": "SendGrid",
       "description": "Transactional and bulk email via @sendgrid/mail. Lazily configures the API key on first use and normalizes thrown ResponseError objects into typed errors.",
       "sdk_package": "@sendgrid/mail",
-      "deps": ["@sendgrid/mail@^8.1.6"],
+      "deps": [
+        "@sendgrid/mail@^8.1.6"
+      ],
       "env": [
         {
           "name": "SENDGRID_API_KEY",
@@ -136,7 +145,9 @@
       "display_name": "OpenRouter",
       "description": "Unified access to 200+ LLMs via OpenRouter's OpenAI-compatible API. Uses the official openai SDK pointed at https://openrouter.ai/api/v1 for chat completions, embeddings, and model listing.",
       "sdk_package": "openai",
-      "deps": ["openai@^6.33.0"],
+      "deps": [
+        "openai@^6.33.0"
+      ],
       "env": [
         {
           "name": "OPENROUTER_API_KEY",
@@ -191,14 +202,14 @@
         },
         {
           "name": "QOREID_CLIENT_SECRET",
-          "description": "QoreID client secret (from Dashboard -> API Keys). Server-side only — never expose.",
+          "description": "QoreID client secret (from Dashboard -> API Keys). Server-side only \u2014 never expose.",
           "example": "qoreid_secret_xxxxxxxxxxxx",
           "required": true,
           "group": "QoreID"
         },
         {
           "name": "QOREID_BASE_URL",
-          "description": "Override the API base URL. Defaults to https://api.qoreid.com — only set this for testing or self-hosted proxies.",
+          "description": "Override the API base URL. Defaults to https://api.qoreid.com \u2014 only set this for testing or self-hosted proxies.",
           "example": "https://api.qoreid.com",
           "required": false,
           "group": "QoreID"

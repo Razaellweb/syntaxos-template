@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",
+    "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.102.1",
     "next": "14.2.15",
     "openai": "^6.33.0",
