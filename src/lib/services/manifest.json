@@ -233,41 +233,939 @@
       "file": "src/lib/services/langfuse.ts",
       "category": "observability",
       "display_name": "Langfuse",
-      "description": "Open-source LLM observability, prompt management, and evaluations via the official @langfuse/client, @langfuse/tracing, and @langfuse/otel packages. Initialises an OpenTelemetry NodeSDK with LangfuseSpanProcessor for zero-latency tracing, and exposes typed helpers for prompt fetching, scoring, and graceful shutdown.",
+      "description": "Open-source LLM observability, prompt management, and evaluations via the official @langfuse/client, @langfuse/tracing, and @langfuse/otel packages.",
       "sdk_package": "@langfuse/client",
-      "deps": [
-        "@langfuse/client@^5.3.0",
-        "@langfuse/tracing@^5.3.0",
-        "@langfuse/otel@^5.3.0",
-        "@opentelemetry/sdk-node@^0.57.0"
-      ],
+      "deps": ["@langfuse/client@^5.3.0", "@langfuse/tracing@^5.3.0", "@langfuse/otel@^5.3.0", "@opentelemetry/sdk-node@^0.57.0"],
       "env": [
-        {
-          "name": "LANGFUSE_SECRET_KEY",
-          "description": "Langfuse secret API key (sk-lf-...). Server-side only — never expose. Found in project Settings > API Keys.",
-          "example": "sk-lf-xxxxxxxxxxxxxxxx",
-          "required": true,
-          "group": "Langfuse"
-        },
-        {
-          "name": "LANGFUSE_PUBLIC_KEY",
-          "description": "Langfuse public API key (pk-lf-...). Identifies the project; safe for client-side if needed.",
-          "example": "pk-lf-xxxxxxxxxxxxxxxx",
-          "required": true,
-          "group": "Langfuse"
-        },
-        {
-          "name": "LANGFUSE_BASE_URL",
-          "description": "Langfuse API base URL. Defaults to https://cloud.langfuse.com (EU). Use https://us.cloud.langfuse.com for US, or your self-hosted instance URL.",
-          "example": "https://cloud.langfuse.com",
-          "required": false,
-          "group": "Langfuse"
-        }
+        { "name": "LANGFUSE_SECRET_KEY", "description": "Langfuse secret API key.", "required": true, "group": "Langfuse" },
+        { "name": "LANGFUSE_PUBLIC_KEY", "description": "Langfuse public API key.", "required": true, "group": "Langfuse" },
+        { "name": "LANGFUSE_BASE_URL", "description": "Langfuse API base URL.", "required": false, "group": "Langfuse" }
       ],
-      "exports": {
-        "class": "LangfuseService",
-        "singleton": "langfuse"
-      },
+      "exports": { "class": "LangfuseService", "singleton": "langfuse" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "stripe": {
+      "file": "src/lib/services/stripe.ts",
+      "category": "payment",
+      "display_name": "Stripe",
+      "description": "Payment processing, subscriptions, and billing via the official stripe SDK.",
+      "sdk_package": "stripe",
+      "deps": ["stripe@^22.1.1"],
+      "env": [
+        { "name": "STRIPE_SECRET_KEY", "description": "Stripe secret API key.", "required": true, "group": "Stripe" },
+        { "name": "STRIPE_WEBHOOK_SECRET", "description": "Stripe webhook signing secret.", "required": false, "group": "Stripe" }
+      ],
+      "exports": { "class": "StripeService", "singleton": "stripe" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "paddle": {
+      "file": "src/lib/services/paddle.ts",
+      "category": "payment",
+      "display_name": "Paddle",
+      "description": "Subscription billing and payments via the official @paddle/paddle-node-sdk.",
+      "sdk_package": "@paddle/paddle-node-sdk",
+      "deps": ["@paddle/paddle-node-sdk@^3.8.0"],
+      "env": [
+        { "name": "PADDLE_API_KEY", "description": "Paddle API key.", "required": true, "group": "Paddle" },
+        { "name": "PADDLE_ENVIRONMENT", "description": "sandbox or production.", "required": false, "group": "Paddle" },
+        { "name": "PADDLE_WEBHOOK_SECRET", "description": "Paddle webhook secret.", "required": false, "group": "Paddle" }
+      ],
+      "exports": { "class": "PaddleService", "singleton": "paddle" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "flutterwave": {
+      "file": "src/lib/services/flutterwave.ts",
+      "category": "payment",
+      "display_name": "Flutterwave",
+      "description": "African payment processing via the flutterwave-node-v3 SDK.",
+      "sdk_package": "flutterwave-node-v3",
+      "deps": ["flutterwave-node-v3@^1.3.2"],
+      "env": [
+        { "name": "FLUTTERWAVE_PUBLIC_KEY", "description": "Flutterwave public key.", "required": true, "group": "Flutterwave" },
+        { "name": "FLUTTERWAVE_SECRET_KEY", "description": "Flutterwave secret key.", "required": true, "group": "Flutterwave" },
+        { "name": "FLUTTERWAVE_ENCRYPTION_KEY", "description": "Flutterwave encryption key.", "required": false, "group": "Flutterwave" }
+      ],
+      "exports": { "class": "FlutterwaveService", "singleton": "flutterwave" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "fincra": {
+      "file": "src/lib/services/fincra.ts",
+      "category": "payment",
+      "display_name": "Fincra",
+      "description": "Cross-border payments and virtual accounts via the fincra-node-sdk.",
+      "sdk_package": "fincra-node-sdk",
+      "deps": ["fincra-node-sdk@^0.2.4"],
+      "env": [
+        { "name": "FINCRA_PUBLIC_KEY", "description": "Fincra public key.", "required": true, "group": "Fincra" },
+        { "name": "FINCRA_PRIVATE_KEY", "description": "Fincra private key.", "required": true, "group": "Fincra" },
+        { "name": "FINCRA_SANDBOX", "description": "Set to true for sandbox.", "required": false, "group": "Fincra" }
+      ],
+      "exports": { "class": "FincraService", "singleton": "fincra" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "providus": {
+      "file": "src/lib/services/providus.ts",
+      "category": "payment",
+      "display_name": "Providus",
+      "description": "Nigerian banking APIs for virtual accounts, transfers, and NIP via hand-rolled fetch client.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "PROVIDUS_CLIENT_ID", "description": "Providus client ID.", "required": true, "group": "Providus" },
+        { "name": "PROVIDUS_CLIENT_SECRET", "description": "Providus client secret.", "required": true, "group": "Providus" }
+      ],
+      "exports": { "class": "ProvidusService", "singleton": "providus" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "postmark": {
+      "file": "src/lib/services/postmark.ts",
+      "category": "email",
+      "display_name": "Postmark",
+      "description": "Transactional email delivery via the official postmark SDK.",
+      "sdk_package": "postmark",
+      "deps": ["postmark@^4.0.7"],
+      "env": [
+        { "name": "POSTMARK_SERVER_TOKEN", "description": "Postmark server API token.", "required": true, "group": "Postmark" }
+      ],
+      "exports": { "class": "PostmarkService", "singleton": "postmark" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "mailgun": {
+      "file": "src/lib/services/mailgun.ts",
+      "category": "email",
+      "display_name": "Mailgun",
+      "description": "Transactional email via the mailgun.js SDK.",
+      "sdk_package": "mailgun.js",
+      "deps": ["mailgun.js@^13.0.1", "form-data@^4.0.0"],
+      "env": [
+        { "name": "MAILGUN_API_KEY", "description": "Mailgun API key.", "required": true, "group": "Mailgun" },
+        { "name": "MAILGUN_DOMAIN", "description": "Mailgun sending domain.", "required": true, "group": "Mailgun" }
+      ],
+      "exports": { "class": "MailgunService", "singleton": "mailgun" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "twilio": {
+      "file": "src/lib/services/twilio.ts",
+      "category": "messaging",
+      "display_name": "Twilio",
+      "description": "SMS, WhatsApp, voice, and OTP via the official twilio SDK.",
+      "sdk_package": "twilio",
+      "deps": ["twilio@^6.0.2"],
+      "env": [
+        { "name": "TWILIO_ACCOUNT_SID", "description": "Twilio account SID.", "required": true, "group": "Twilio" },
+        { "name": "TWILIO_AUTH_TOKEN", "description": "Twilio auth token.", "required": true, "group": "Twilio" },
+        { "name": "TWILIO_PHONE_NUMBER", "description": "Twilio phone number.", "required": true, "group": "Twilio" },
+        { "name": "TWILIO_VERIFY_SID", "description": "Twilio Verify service SID.", "required": false, "group": "Twilio" }
+      ],
+      "exports": { "class": "TwilioService", "singleton": "twilio" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "termii": {
+      "file": "src/lib/services/termii.ts",
+      "category": "messaging",
+      "display_name": "Termii",
+      "description": "African SMS and OTP via Termii REST API with hand-rolled fetch client.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "TERMII_API_KEY", "description": "Termii API key.", "required": true, "group": "Termii" },
+        { "name": "TERMII_SENDER_ID", "description": "Termii sender ID.", "required": true, "group": "Termii" }
+      ],
+      "exports": { "class": "TermiiService", "singleton": "termii" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "posthog": {
+      "file": "src/lib/services/posthog.ts",
+      "category": "analytics",
+      "display_name": "PostHog",
+      "description": "Product analytics, feature flags, and session replay via the posthog-node SDK.",
+      "sdk_package": "posthog-node",
+      "deps": ["posthog-node@^5.34.2"],
+      "env": [
+        { "name": "POSTHOG_API_KEY", "description": "PostHog project API key.", "required": true, "group": "PostHog" },
+        { "name": "POSTHOG_HOST", "description": "PostHog instance URL.", "required": false, "group": "PostHog" }
+      ],
+      "exports": { "class": "PostHogService", "singleton": "posthog" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "sentry": {
+      "file": "src/lib/services/sentry.ts",
+      "category": "observability",
+      "display_name": "Sentry",
+      "description": "Error tracking and performance monitoring via the @sentry/node SDK.",
+      "sdk_package": "@sentry/node",
+      "deps": ["@sentry/node@^10.53.1"],
+      "env": [
+        { "name": "SENTRY_DSN", "description": "Sentry DSN.", "required": true, "group": "Sentry" }
+      ],
+      "exports": { "class": "SentryService", "singleton": "sentry" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "customerio": {
+      "file": "src/lib/services/customerio.ts",
+      "category": "crm",
+      "display_name": "Customer.io",
+      "description": "Customer messaging and engagement via the customerio-node SDK.",
+      "sdk_package": "customerio-node",
+      "deps": ["customerio-node@^4.5.0"],
+      "env": [
+        { "name": "CUSTOMERIO_SITE_ID", "description": "Customer.io site ID.", "required": true, "group": "Customer.io" },
+        { "name": "CUSTOMERIO_API_KEY", "description": "Customer.io tracking API key.", "required": true, "group": "Customer.io" },
+        { "name": "CUSTOMERIO_APP_API_KEY", "description": "Customer.io App API key.", "required": false, "group": "Customer.io" }
+      ],
+      "exports": { "class": "CustomerIoService", "singleton": "customerio" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "hubspot": {
+      "file": "src/lib/services/hubspot.ts",
+      "category": "crm",
+      "display_name": "HubSpot",
+      "description": "CRM, contacts, and marketing automation via the @hubspot/api-client SDK.",
+      "sdk_package": "@hubspot/api-client",
+      "deps": ["@hubspot/api-client@^13.5.0"],
+      "env": [
+        { "name": "HUBSPOT_ACCESS_TOKEN", "description": "HubSpot private app access token.", "required": true, "group": "HubSpot" }
+      ],
+      "exports": { "class": "HubSpotService", "singleton": "hubspot" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "salesforce": {
+      "file": "src/lib/services/salesforce.ts",
+      "category": "crm",
+      "display_name": "Salesforce",
+      "description": "CRM operations via the jsforce SDK with OAuth2 refresh token auth.",
+      "sdk_package": "jsforce",
+      "deps": ["jsforce@^3.10.15"],
+      "env": [
+        { "name": "SALESFORCE_LOGIN_URL", "description": "Salesforce login URL.", "required": true, "group": "Salesforce" },
+        { "name": "SALESFORCE_CLIENT_ID", "description": "OAuth2 client ID.", "required": true, "group": "Salesforce" },
+        { "name": "SALESFORCE_CLIENT_SECRET", "description": "OAuth2 client secret.", "required": true, "group": "Salesforce" },
+        { "name": "SALESFORCE_REFRESH_TOKEN", "description": "OAuth2 refresh token.", "required": true, "group": "Salesforce" }
+      ],
+      "exports": { "class": "SalesforceService", "singleton": "salesforce" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "klaviyo": {
+      "file": "src/lib/services/klaviyo.ts",
+      "category": "crm",
+      "display_name": "Klaviyo",
+      "description": "Email marketing and customer data platform via the klaviyo-api SDK.",
+      "sdk_package": "klaviyo-api",
+      "deps": ["klaviyo-api@^22.0.1"],
+      "env": [
+        { "name": "KLAVIYO_API_KEY", "description": "Klaviyo private API key.", "required": true, "group": "Klaviyo" }
+      ],
+      "exports": { "class": "KlaviyoService", "singleton": "klaviyo" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "zoho-crm": {
+      "file": "src/lib/services/zoho-crm.ts",
+      "category": "crm",
+      "display_name": "Zoho CRM",
+      "description": "CRM operations via Zoho CRM REST API with OAuth2 token refresh.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "ZOHO_CLIENT_ID", "description": "Zoho OAuth2 client ID.", "required": true, "group": "Zoho CRM" },
+        { "name": "ZOHO_CLIENT_SECRET", "description": "Zoho OAuth2 client secret.", "required": true, "group": "Zoho CRM" },
+        { "name": "ZOHO_REFRESH_TOKEN", "description": "Zoho OAuth2 refresh token.", "required": true, "group": "Zoho CRM" }
+      ],
+      "exports": { "class": "ZohoCrmService", "singleton": "zohocrm" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "firecrawl": {
+      "file": "src/lib/services/firecrawl.ts",
+      "category": "ai",
+      "display_name": "Firecrawl",
+      "description": "Web scraping and crawling via the @mendable/firecrawl-js SDK.",
+      "sdk_package": "@mendable/firecrawl-js",
+      "deps": ["@mendable/firecrawl-js@^4.23.0"],
+      "env": [
+        { "name": "FIRECRAWL_API_KEY", "description": "Firecrawl API key.", "required": true, "group": "Firecrawl" }
+      ],
+      "exports": { "class": "FirecrawlService", "singleton": "firecrawl" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "exa": {
+      "file": "src/lib/services/exa.ts",
+      "category": "ai",
+      "display_name": "Exa",
+      "description": "AI-native semantic web search via the exa-js SDK.",
+      "sdk_package": "exa-js",
+      "deps": ["exa-js@^2.13.0"],
+      "env": [
+        { "name": "EXA_API_KEY", "description": "Exa API key.", "required": true, "group": "Exa" }
+      ],
+      "exports": { "class": "ExaService", "singleton": "exa" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "serper": {
+      "file": "src/lib/services/serper.ts",
+      "category": "ai",
+      "display_name": "Serper.dev",
+      "description": "Google Search API via hand-rolled fetch with X-API-KEY header.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "SERPER_API_KEY", "description": "Serper.dev API key.", "required": true, "group": "Serper" }
+      ],
+      "exports": { "class": "SerperService", "singleton": "serper" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "semrush": {
+      "file": "src/lib/services/semrush.ts",
+      "category": "ai",
+      "display_name": "SEMrush",
+      "description": "SEO and marketing analytics via hand-rolled fetch client.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "SEMRUSH_API_KEY", "description": "SEMrush API key.", "required": true, "group": "SEMrush" }
+      ],
+      "exports": { "class": "SemrushService", "singleton": "semrush" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "google-search-console": {
+      "file": "src/lib/services/google-search-console.ts",
+      "category": "ai",
+      "display_name": "Google Search Console",
+      "description": "Search analytics and URL inspection via the googleapis SDK.",
+      "sdk_package": "googleapis",
+      "deps": ["googleapis@^148.0.0"],
+      "env": [
+        { "name": "GOOGLE_CLIENT_ID", "description": "Google OAuth2 client ID.", "required": true, "group": "Google" },
+        { "name": "GOOGLE_CLIENT_SECRET", "description": "Google OAuth2 client secret.", "required": true, "group": "Google" },
+        { "name": "GOOGLE_REFRESH_TOKEN", "description": "Google OAuth2 refresh token.", "required": true, "group": "Google" }
+      ],
+      "exports": { "class": "GoogleSearchConsoleService", "singleton": "gsc" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "alchemy": {
+      "file": "src/lib/services/alchemy.ts",
+      "category": "web3",
+      "display_name": "Alchemy",
+      "description": "Multi-chain blockchain APIs via the alchemy-sdk.",
+      "sdk_package": "alchemy-sdk",
+      "deps": ["alchemy-sdk@^3.6.5"],
+      "env": [
+        { "name": "ALCHEMY_API_KEY", "description": "Alchemy API key.", "required": true, "group": "Alchemy" },
+        { "name": "ALCHEMY_NETWORK", "description": "Network (e.g. eth-mainnet).", "required": false, "group": "Alchemy" }
+      ],
+      "exports": { "class": "AlchemyService", "singleton": "alchemy" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "helius": {
+      "file": "src/lib/services/helius.ts",
+      "category": "web3",
+      "display_name": "Helius",
+      "description": "Solana RPC, DAS API, and transaction parsing via the helius-sdk.",
+      "sdk_package": "helius-sdk",
+      "deps": ["helius-sdk@^2.2.2"],
+      "env": [
+        { "name": "HELIUS_API_KEY", "description": "Helius API key.", "required": true, "group": "Helius" }
+      ],
+      "exports": { "class": "HeliusService", "singleton": "helius" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "thirdweb": {
+      "file": "src/lib/services/thirdweb.ts",
+      "category": "web3",
+      "display_name": "Thirdweb",
+      "description": "Full-stack Web3 SDK for contracts, wallets, and NFTs.",
+      "sdk_package": "thirdweb",
+      "deps": ["thirdweb@^5.120.0"],
+      "env": [
+        { "name": "THIRDWEB_SECRET_KEY", "description": "Thirdweb secret key.", "required": true, "group": "Thirdweb" }
+      ],
+      "exports": { "class": "ThirdwebService", "singleton": "thirdweb" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "bitquery": {
+      "file": "src/lib/services/bitquery.ts",
+      "category": "web3",
+      "display_name": "Bitquery",
+      "description": "Multi-chain blockchain data via GraphQL API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "BITQUERY_API_KEY", "description": "Bitquery API key.", "required": true, "group": "Bitquery" }
+      ],
+      "exports": { "class": "BitqueryService", "singleton": "bitquery" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "dexscreener": {
+      "file": "src/lib/services/dexscreener.ts",
+      "category": "web3",
+      "display_name": "DexScreener",
+      "description": "DEX token pair data and prices via public REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "DEXSCREENER_API_KEY", "description": "DexScreener API key (optional).", "required": false, "group": "DexScreener" }
+      ],
+      "exports": { "class": "DexScreenerService", "singleton": "dexscreener" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "geckoterminal": {
+      "file": "src/lib/services/geckoterminal.ts",
+      "category": "web3",
+      "display_name": "GeckoTerminal",
+      "description": "On-chain DEX data with pools, OHLCV, and trades via public REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [],
+      "exports": { "class": "GeckoTerminalService", "singleton": "geckoterminal" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "coingecko": {
+      "file": "src/lib/services/coingecko.ts",
+      "category": "web3",
+      "display_name": "CoinGecko",
+      "description": "Cryptocurrency market data for 13,000+ coins via REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "COINGECKO_API_KEY", "description": "CoinGecko Pro API key (optional).", "required": false, "group": "CoinGecko" }
+      ],
+      "exports": { "class": "CoinGeckoService", "singleton": "coingecko" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "coinmarketcap": {
+      "file": "src/lib/services/coinmarketcap.ts",
+      "category": "web3",
+      "display_name": "CoinMarketCap",
+      "description": "Cryptocurrency market data and rankings via REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "COINMARKETCAP_API_KEY", "description": "CoinMarketCap API key.", "required": true, "group": "CoinMarketCap" }
+      ],
+      "exports": { "class": "CoinMarketCapService", "singleton": "coinmarketcap" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "dune-analytics": {
+      "file": "src/lib/services/dune-analytics.ts",
+      "category": "web3",
+      "display_name": "Dune Analytics",
+      "description": "SQL-based on-chain analytics via the @duneanalytics/client-sdk.",
+      "sdk_package": "@duneanalytics/client-sdk",
+      "deps": ["@duneanalytics/client-sdk@^0.4.0"],
+      "env": [
+        { "name": "DUNE_API_KEY", "description": "Dune Analytics API key.", "required": true, "group": "Dune" }
+      ],
+      "exports": { "class": "DuneAnalyticsService", "singleton": "dune" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "sim-dune": {
+      "file": "src/lib/services/sim-dune.ts",
+      "category": "web3",
+      "display_name": "Sim (Dune)",
+      "description": "Transaction simulation and tracing for EVM chains via REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "SIM_DUNE_API_KEY", "description": "Sim by Dune API key.", "required": true, "group": "Sim" }
+      ],
+      "exports": { "class": "SimDuneService", "singleton": "simDune" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "defillama": {
+      "file": "src/lib/services/defillama.ts",
+      "category": "web3",
+      "display_name": "DefiLlama",
+      "description": "Open DeFi analytics — TVL, yields, stablecoins via free public REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [],
+      "exports": { "class": "DefiLlamaService", "singleton": "defillama" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "goldsky": {
+      "file": "src/lib/services/goldsky.ts",
+      "category": "web3",
+      "display_name": "Goldsky",
+      "description": "Managed subgraph hosting and blockchain data indexing via GraphQL.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "GOLDSKY_API_KEY", "description": "Goldsky API key.", "required": true, "group": "Goldsky" },
+        { "name": "GOLDSKY_SUBGRAPH_ID", "description": "Subgraph endpoint ID.", "required": false, "group": "Goldsky" }
+      ],
+      "exports": { "class": "GoldskyService", "singleton": "goldsky" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "streamingfast-firehose": {
+      "file": "src/lib/services/streamingfast-firehose.ts",
+      "category": "web3",
+      "display_name": "StreamingFast Firehose",
+      "description": "High-performance blockchain data streaming via gRPC.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "STREAMINGFAST_API_KEY", "description": "StreamingFast API key.", "required": true, "group": "StreamingFast" }
+      ],
+      "exports": { "class": "StreamingFastFirehoseService", "singleton": "firehose" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "substreams": {
+      "file": "src/lib/services/substreams.ts",
+      "category": "web3",
+      "display_name": "Substreams",
+      "description": "Composable blockchain data transformation via @substreams/core.",
+      "sdk_package": "@substreams/core",
+      "deps": ["@substreams/core@^0.17.0"],
+      "env": [
+        { "name": "SUBSTREAMS_API_KEY", "description": "Substreams API key.", "required": true, "group": "Substreams" }
+      ],
+      "exports": { "class": "SubstreamsService", "singleton": "substreams" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "uniswap": {
+      "file": "src/lib/services/uniswap.ts",
+      "category": "web3",
+      "display_name": "Uniswap",
+      "description": "DEX token utilities via the @uniswap/sdk-core.",
+      "sdk_package": "@uniswap/sdk-core",
+      "deps": ["@uniswap/sdk-core@^7.14.0"],
+      "env": [],
+      "exports": { "class": "UniswapService", "singleton": "uniswap" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "0x-protocol": {
+      "file": "src/lib/services/0x-protocol.ts",
+      "category": "web3",
+      "display_name": "0x Protocol",
+      "description": "DEX aggregation and swap routing via 0x REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "ZEROX_API_KEY", "description": "0x API key.", "required": true, "group": "0x" }
+      ],
+      "exports": { "class": "ZeroXService", "singleton": "zerox" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "polymarket": {
+      "file": "src/lib/services/polymarket.ts",
+      "category": "web3",
+      "display_name": "Polymarket",
+      "description": "Prediction market CLOB trading via the @polymarket/clob-client.",
+      "sdk_package": "@polymarket/clob-client",
+      "deps": ["@polymarket/clob-client@^5.8.1"],
+      "env": [
+        { "name": "POLYMARKET_API_KEY", "description": "Polymarket API key.", "required": true, "group": "Polymarket" },
+        { "name": "POLYMARKET_API_SECRET", "description": "Polymarket API secret.", "required": true, "group": "Polymarket" },
+        { "name": "POLYMARKET_PASSPHRASE", "description": "Polymarket passphrase.", "required": true, "group": "Polymarket" }
+      ],
+      "exports": { "class": "PolymarketService", "singleton": "polymarket" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "hyperliquid": {
+      "file": "src/lib/services/hyperliquid.ts",
+      "category": "web3",
+      "display_name": "Hyperliquid",
+      "description": "Perpetual futures DEX trading via REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "HYPERLIQUID_PRIVATE_KEY", "description": "Wallet private key for signing.", "required": true, "group": "Hyperliquid" },
+        { "name": "HYPERLIQUID_TESTNET", "description": "Set to true for testnet.", "required": false, "group": "Hyperliquid" }
+      ],
+      "exports": { "class": "HyperliquidService", "singleton": "hyperliquid" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "solana-tracker": {
+      "file": "src/lib/services/solana-tracker.ts",
+      "category": "web3",
+      "display_name": "Solana Tracker",
+      "description": "Solana token analytics and new token detection via REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "SOLANA_TRACKER_API_KEY", "description": "Solana Tracker API key.", "required": true, "group": "Solana Tracker" }
+      ],
+      "exports": { "class": "SolanaTrackerService", "singleton": "solanaTracker" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "aws-s3": {
+      "file": "src/lib/services/aws-s3.ts",
+      "category": "infrastructure",
+      "display_name": "AWS S3",
+      "description": "Object storage via the @aws-sdk/client-s3 with presigned URLs.",
+      "sdk_package": "@aws-sdk/client-s3",
+      "deps": ["@aws-sdk/client-s3@^3.1048.0", "@aws-sdk/s3-request-presigner@^3.1048.0"],
+      "env": [
+        { "name": "AWS_ACCESS_KEY_ID", "description": "AWS access key ID.", "required": true, "group": "AWS" },
+        { "name": "AWS_SECRET_ACCESS_KEY", "description": "AWS secret access key.", "required": true, "group": "AWS" },
+        { "name": "AWS_REGION", "description": "AWS region.", "required": true, "group": "AWS" },
+        { "name": "AWS_S3_BUCKET", "description": "S3 bucket name.", "required": true, "group": "AWS" }
+      ],
+      "exports": { "class": "AwsS3Service", "singleton": "s3" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "aws-ses": {
+      "file": "src/lib/services/aws-ses.ts",
+      "category": "email",
+      "display_name": "AWS SES",
+      "description": "Email delivery via the @aws-sdk/client-ses.",
+      "sdk_package": "@aws-sdk/client-ses",
+      "deps": ["@aws-sdk/client-ses@^3.1048.0"],
+      "env": [
+        { "name": "AWS_ACCESS_KEY_ID", "description": "AWS access key ID.", "required": true, "group": "AWS" },
+        { "name": "AWS_SECRET_ACCESS_KEY", "description": "AWS secret access key.", "required": true, "group": "AWS" },
+        { "name": "AWS_REGION", "description": "AWS region.", "required": true, "group": "AWS" },
+        { "name": "AWS_SES_FROM_EMAIL", "description": "Verified sender email.", "required": true, "group": "AWS" }
+      ],
+      "exports": { "class": "AwsSesService", "singleton": "ses" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "cloudinary": {
+      "file": "src/lib/services/cloudinary.ts",
+      "category": "infrastructure",
+      "display_name": "Cloudinary",
+      "description": "Image/video upload, transformation, and CDN via the cloudinary SDK.",
+      "sdk_package": "cloudinary",
+      "deps": ["cloudinary@^2.10.0"],
+      "env": [
+        { "name": "CLOUDINARY_CLOUD_NAME", "description": "Cloudinary cloud name.", "required": true, "group": "Cloudinary" },
+        { "name": "CLOUDINARY_API_KEY", "description": "Cloudinary API key.", "required": true, "group": "Cloudinary" },
+        { "name": "CLOUDINARY_API_SECRET", "description": "Cloudinary API secret.", "required": true, "group": "Cloudinary" }
+      ],
+      "exports": { "class": "CloudinaryService", "singleton": "cloudinary" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "quicknode": {
+      "file": "src/lib/services/quicknode.ts",
+      "category": "web3",
+      "display_name": "QuickNode",
+      "description": "Multi-chain JSON-RPC node access via endpoint URL.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "QUICKNODE_ENDPOINT_URL", "description": "QuickNode endpoint URL.", "required": true, "group": "QuickNode" }
+      ],
+      "exports": { "class": "QuickNodeService", "singleton": "quicknode" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "kafka": {
+      "file": "src/lib/services/kafka.ts",
+      "category": "queue",
+      "display_name": "Apache Kafka",
+      "description": "Event streaming via the kafkajs client.",
+      "sdk_package": "kafkajs",
+      "deps": ["kafkajs@^2.2.4"],
+      "env": [
+        { "name": "KAFKA_BROKERS", "description": "Comma-separated broker list.", "required": true, "group": "Kafka" },
+        { "name": "KAFKA_USERNAME", "description": "SASL username.", "required": false, "group": "Kafka" },
+        { "name": "KAFKA_PASSWORD", "description": "SASL password.", "required": false, "group": "Kafka" }
+      ],
+      "exports": { "class": "KafkaService", "singleton": "kafka" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "aws-sqs": {
+      "file": "src/lib/services/aws-sqs.ts",
+      "category": "queue",
+      "display_name": "AWS SQS",
+      "description": "Message queuing via the @aws-sdk/client-sqs.",
+      "sdk_package": "@aws-sdk/client-sqs",
+      "deps": ["@aws-sdk/client-sqs@^3.1048.0"],
+      "env": [
+        { "name": "AWS_ACCESS_KEY_ID", "description": "AWS access key ID.", "required": true, "group": "AWS" },
+        { "name": "AWS_SECRET_ACCESS_KEY", "description": "AWS secret access key.", "required": true, "group": "AWS" },
+        { "name": "AWS_REGION", "description": "AWS region.", "required": true, "group": "AWS" },
+        { "name": "AWS_SQS_QUEUE_URL", "description": "SQS queue URL.", "required": true, "group": "AWS" }
+      ],
+      "exports": { "class": "AwsSqsService", "singleton": "sqs" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "rabbitmq": {
+      "file": "src/lib/services/rabbitmq.ts",
+      "category": "queue",
+      "display_name": "RabbitMQ",
+      "description": "AMQP messaging via the amqplib client.",
+      "sdk_package": "amqplib",
+      "deps": ["amqplib@^2.0.1"],
+      "env": [
+        { "name": "RABBITMQ_URL", "description": "RabbitMQ connection URL.", "required": true, "group": "RabbitMQ" }
+      ],
+      "exports": { "class": "RabbitMQService", "singleton": "rabbitmq" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "bullmq": {
+      "file": "src/lib/services/bullmq.ts",
+      "category": "queue",
+      "display_name": "BullMQ",
+      "description": "Redis-based job queue with scheduling and retries.",
+      "sdk_package": "bullmq",
+      "deps": ["bullmq@^5.76.8"],
+      "env": [
+        { "name": "REDIS_URL", "description": "Redis connection URL.", "required": true, "group": "Redis" }
+      ],
+      "exports": { "class": "BullMQService", "singleton": "bullmq" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "upstash": {
+      "file": "src/lib/services/upstash.ts",
+      "category": "queue",
+      "display_name": "Upstash",
+      "description": "Serverless HTTP Redis via the @upstash/redis SDK.",
+      "sdk_package": "@upstash/redis",
+      "deps": ["@upstash/redis@^1.38.0"],
+      "env": [
+        { "name": "UPSTASH_REDIS_REST_URL", "description": "Upstash Redis REST URL.", "required": true, "group": "Upstash" },
+        { "name": "UPSTASH_REDIS_REST_TOKEN", "description": "Upstash Redis REST token.", "required": true, "group": "Upstash" }
+      ],
+      "exports": { "class": "UpstashService", "singleton": "upstash" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "pinecone": {
+      "file": "src/lib/services/pinecone.ts",
+      "category": "vector-db",
+      "display_name": "Pinecone",
+      "description": "Managed vector database via the @pinecone-database/pinecone SDK.",
+      "sdk_package": "@pinecone-database/pinecone",
+      "deps": ["@pinecone-database/pinecone@^7.2.0"],
+      "env": [
+        { "name": "PINECONE_API_KEY", "description": "Pinecone API key.", "required": true, "group": "Pinecone" }
+      ],
+      "exports": { "class": "PineconeService", "singleton": "pinecone" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "qdrant": {
+      "file": "src/lib/services/qdrant.ts",
+      "category": "vector-db",
+      "display_name": "Qdrant",
+      "description": "Vector similarity search via the @qdrant/js-client-rest SDK.",
+      "sdk_package": "@qdrant/js-client-rest",
+      "deps": ["@qdrant/js-client-rest@^1.18.0"],
+      "env": [
+        { "name": "QDRANT_URL", "description": "Qdrant instance URL.", "required": true, "group": "Qdrant" },
+        { "name": "QDRANT_API_KEY", "description": "Qdrant API key.", "required": false, "group": "Qdrant" }
+      ],
+      "exports": { "class": "QdrantService", "singleton": "qdrant" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "mem0": {
+      "file": "src/lib/services/mem0.ts",
+      "category": "vector-db",
+      "display_name": "Mem0",
+      "description": "AI memory layer via the mem0ai SDK.",
+      "sdk_package": "mem0ai",
+      "deps": ["mem0ai@^3.0.3"],
+      "env": [
+        { "name": "MEM0_API_KEY", "description": "Mem0 API key.", "required": true, "group": "Mem0" }
+      ],
+      "exports": { "class": "Mem0Service", "singleton": "mem0" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "supermemory": {
+      "file": "src/lib/services/supermemory.ts",
+      "category": "vector-db",
+      "display_name": "Supermemory",
+      "description": "AI knowledge management and semantic search via REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "SUPERMEMORY_API_KEY", "description": "Supermemory API key.", "required": true, "group": "Supermemory" }
+      ],
+      "exports": { "class": "SupermemoryService", "singleton": "supermemory" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "clerk": {
+      "file": "src/lib/services/clerk.ts",
+      "category": "auth",
+      "display_name": "Clerk",
+      "description": "Authentication and user management via the @clerk/clerk-sdk-node.",
+      "sdk_package": "@clerk/clerk-sdk-node",
+      "deps": ["@clerk/clerk-sdk-node@^5.1.6"],
+      "env": [
+        { "name": "CLERK_SECRET_KEY", "description": "Clerk secret key.", "required": true, "group": "Clerk" },
+        { "name": "CLERK_PUBLISHABLE_KEY", "description": "Clerk publishable key.", "required": true, "group": "Clerk" }
+      ],
+      "exports": { "class": "ClerkService", "singleton": "clerk" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "privy": {
+      "file": "src/lib/services/privy.ts",
+      "category": "auth",
+      "display_name": "Privy",
+      "description": "Web3 authentication and embedded wallets via the @privy-io/server-auth SDK.",
+      "sdk_package": "@privy-io/server-auth",
+      "deps": ["@privy-io/server-auth@^1.32.5"],
+      "env": [
+        { "name": "PRIVY_APP_ID", "description": "Privy app ID.", "required": true, "group": "Privy" },
+        { "name": "PRIVY_APP_SECRET", "description": "Privy app secret.", "required": true, "group": "Privy" }
+      ],
+      "exports": { "class": "PrivyService", "singleton": "privy" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "smile-id": {
+      "file": "src/lib/services/smile-id.ts",
+      "category": "auth",
+      "display_name": "Smile ID",
+      "description": "African identity verification and KYC via the smile-identity-core SDK.",
+      "sdk_package": "smile-identity-core",
+      "deps": ["smile-identity-core@^3.1.0"],
+      "env": [
+        { "name": "SMILE_ID_PARTNER_ID", "description": "Smile ID partner ID.", "required": true, "group": "Smile ID" },
+        { "name": "SMILE_ID_API_KEY", "description": "Smile ID API key.", "required": true, "group": "Smile ID" },
+        { "name": "SMILE_ID_SID_SERVER", "description": "0 for sandbox, 1 for production.", "required": false, "group": "Smile ID" }
+      ],
+      "exports": { "class": "SmileIdService", "singleton": "smileId" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "zapier": {
+      "file": "src/lib/services/zapier.ts",
+      "category": "automation",
+      "display_name": "Zapier",
+      "description": "Webhook trigger client for firing Zapier Zaps programmatically.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "ZAPIER_WEBHOOK_URL", "description": "Default Zapier webhook URL.", "required": false, "group": "Zapier" }
+      ],
+      "exports": { "class": "ZapierService", "singleton": "zapier" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "make": {
+      "file": "src/lib/services/make.ts",
+      "category": "automation",
+      "display_name": "Make (Integromat)",
+      "description": "Webhook triggers and scenario management for Make automation.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "MAKE_API_TOKEN", "description": "Make API token.", "required": true, "group": "Make" },
+        { "name": "MAKE_WEBHOOK_URL", "description": "Default Make webhook URL.", "required": false, "group": "Make" }
+      ],
+      "exports": { "class": "MakeService", "singleton": "make" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "doppler": {
+      "file": "src/lib/services/doppler.ts",
+      "category": "devops",
+      "display_name": "Doppler",
+      "description": "Centralized secrets management via Doppler REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "DOPPLER_TOKEN", "description": "Doppler service token.", "required": true, "group": "Doppler" }
+      ],
+      "exports": { "class": "DopplerService", "singleton": "doppler" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "mono": {
+      "file": "src/lib/services/mono.ts",
+      "category": "fintech",
+      "display_name": "Mono",
+      "description": "African open banking — account linking, financial data, and payments via REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "MONO_SECRET_KEY", "description": "Mono secret key.", "required": true, "group": "Mono" }
+      ],
+      "exports": { "class": "MonoService", "singleton": "mono" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "blockradar": {
+      "file": "src/lib/services/blockradar.ts",
+      "category": "web3",
+      "display_name": "Blockradar",
+      "description": "Stablecoin wallet infrastructure and AML compliance via REST API.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "BLOCKRADAR_API_KEY", "description": "Blockradar API key.", "required": true, "group": "Blockradar" }
+      ],
+      "exports": { "class": "BlockradarService", "singleton": "blockradar" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "relay": {
+      "file": "src/lib/services/relay.ts",
+      "category": "automation",
+      "display_name": "Relay",
+      "description": "AI workflow automation webhook trigger client.",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        { "name": "RELAY_WEBHOOK_URL", "description": "Default Relay webhook URL.", "required": false, "group": "Relay" }
+      ],
+      "exports": { "class": "RelayService", "singleton": "relay" },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
+    },
+    "dome": {
+      "file": "src/lib/services/dome.ts",
+      "category": "web3",
+      "display_name": "Dome API",
+      "description": "Unified prediction markets data and trading via REST API.",
+      "sdk_package": "@dome-api/sdk",
+      "deps": ["@dome-api/sdk@^1.0.2"],
+      "env": [
+        { "name": "DOME_API_KEY", "description": "Dome API key.", "required": true, "group": "Dome" }
+      ],
+      "exports": { "class": "DomeService", "singleton": "dome" },
       "version": "1.0.0",
       "generated_at": "2026-05-16T00:00:00Z"
     }
