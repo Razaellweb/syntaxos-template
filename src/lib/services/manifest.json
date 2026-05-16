@@ -228,6 +228,48 @@
       },
       "version": "1.0.0",
       "generated_at": "2026-05-05T00:00:00Z"
+    },
+    "langfuse": {
+      "file": "src/lib/services/langfuse.ts",
+      "category": "observability",
+      "display_name": "Langfuse",
+      "description": "Open-source LLM observability, prompt management, and evaluations via the official @langfuse/client, @langfuse/tracing, and @langfuse/otel packages. Initialises an OpenTelemetry NodeSDK with LangfuseSpanProcessor for zero-latency tracing, and exposes typed helpers for prompt fetching, scoring, and graceful shutdown.",
+      "sdk_package": "@langfuse/client",
+      "deps": [
+        "@langfuse/client@^5.3.0",
+        "@langfuse/tracing@^5.3.0",
+        "@langfuse/otel@^5.3.0",
+        "@opentelemetry/sdk-node@^0.57.0"
+      ],
+      "env": [
+        {
+          "name": "LANGFUSE_SECRET_KEY",
+          "description": "Langfuse secret API key (sk-lf-...). Server-side only — never expose. Found in project Settings > API Keys.",
+          "example": "sk-lf-xxxxxxxxxxxxxxxx",
+          "required": true,
+          "group": "Langfuse"
+        },
+        {
+          "name": "LANGFUSE_PUBLIC_KEY",
+          "description": "Langfuse public API key (pk-lf-...). Identifies the project; safe for client-side if needed.",
+          "example": "pk-lf-xxxxxxxxxxxxxxxx",
+          "required": true,
+          "group": "Langfuse"
+        },
+        {
+          "name": "LANGFUSE_BASE_URL",
+          "description": "Langfuse API base URL. Defaults to https://cloud.langfuse.com (EU). Use https://us.cloud.langfuse.com for US, or your self-hosted instance URL.",
+          "example": "https://cloud.langfuse.com",
+          "required": false,
+          "group": "Langfuse"
+        }
+      ],
+      "exports": {
+        "class": "LangfuseService",
+        "singleton": "langfuse"
+      },
+      "version": "1.0.0",
+      "generated_at": "2026-05-16T00:00:00Z"
     }
   }
 }
