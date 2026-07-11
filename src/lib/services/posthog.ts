@@ -6,10 +6,9 @@
  * replay, feature flags, and A/B testing.
  *
  * Required env vars:
- *   - POSTHOG_API_KEY  (legacy fallback: NEXT_PUBLIC_POSTHOG_KEY)
+ *   - POSTHOG_API_KEY
  * Optional env vars:
- *   - POSTHOG_HOST  (legacy fallback: NEXT_PUBLIC_POSTHOG_HOST;
- *     defaults to https://us.i.posthog.com)
+ *   - POSTHOG_HOST  (defaults to https://us.i.posthog.com)
  *
  * Fire-and-forget contract: `capture()` and `identify()` NEVER throw —
  * a missing key or provider outage must never fail the request that
@@ -39,15 +38,11 @@ function normalizeError(err: unknown): never {
 }
 
 function readApiKey(): string | undefined {
-  return process.env.POSTHOG_API_KEY || process.env.NEXT_PUBLIC_POSTHOG_KEY;
+  return process.env.POSTHOG_API_KEY;
 }
 
 function readHost(): string {
-  return (
-    process.env.POSTHOG_HOST ||
-    process.env.NEXT_PUBLIC_POSTHOG_HOST ||
-    "https://us.i.posthog.com"
-  );
+  return process.env.POSTHOG_HOST || "https://us.i.posthog.com";
 }
 
 export class PostHogService {
