@@ -6,13 +6,19 @@
  * replay, feature flags, and A/B testing.
  *
  * Required env vars:
- *   - NEXT_PUBLIC_POSTHOG_KEY
+ *   - POSTHOG_API_KEY  (legacy fallback: NEXT_PUBLIC_POSTHOG_KEY)
  * Optional env vars:
- *   - NEXT_PUBLIC_POSTHOG_HOST  (defaults to https://us.i.posthog.com)
+ *   - POSTHOG_HOST  (legacy fallback: NEXT_PUBLIC_POSTHOG_HOST;
+ *     defaults to https://us.i.posthog.com)
+ *
+ * Fire-and-forget contract: `capture()` and `identify()` NEVER throw —
+ * a missing key or provider outage must never fail the request that
+ * emitted the event. `client` and feature-flag reads still surface
+ * normalized errors, since callers depend on their results.
  *
  * Usage:
  *   import { posthog } from "@/lib/services/posthog";
- *   posthog.client.capture({ distinctId: "user-1", event: "signed_up" });
+ *   posthog.capture({ distinctId: "user-1", event: "signed_up" });
  */
 
 import { PostHog } from "posthog-node";
@@ -32,31 +38,53 @@ function normalizeError(err: unknown): never {
   throw err;
 }
 
+function readApiKey(): string | undefined {
+  return process.env.POSTHOG_API_KEY || process.env.NEXT_PUBLIC_POSTHOG_KEY;
+}
+
+function readHost(): string {
+  return (
+    process.env.POSTHOG_HOST ||
+    process.env.NEXT_PUBLIC_POSTHOG_HOST ||
+    "https://us.i.posthog.com"
+  );
+}
+
 export class PostHogService {
   private _client: PostHog | null = null;
 
   get client(): PostHog {
     if (!this._client) {
-      const apiKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+      const apiKey = readApiKey();
       if (!apiKey) {
         throw new ServiceAuthError(
           PROVIDER,
-          new Error("missing required env var: NEXT_PUBLIC_POSTHOG_KEY"),
+          new Error("missing required env var: POSTHOG_API_KEY"),
         );
       }
-      this._client = new PostHog(apiKey, {
-        host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
-      });
+      this._client = new PostHog(apiKey, { host: readHost() });
     }
     return this._client;
   }
 
+  /** Fire-and-forget event capture. Never throws; no-ops without a key. */
   capture(params: { distinctId: string; event: string; properties?: Record<string, unknown> }) {
-    this.client.capture(params);
+    try {
+      if (!readApiKey()) return;
+      this.client.capture(params);
+    } catch (err) {
+      console.warn(`[${PROVIDER}] capture failed (ignored):`, err);
+    }
   }
 
+  /** Fire-and-forget identify. Never throws; no-ops without a key. */
   identify(params: { distinctId: string; properties?: Record<string, unknown> }) {
-    this.client.identify(params);
+    try {
+      if (!readApiKey()) return;
+      this.client.identify(params);
+    } catch (err) {
+      console.warn(`[${PROVIDER}] identify failed (ignored):`, err);
+    }
   }
 
   async isFeatureEnabled(key: string, distinctId: string): Promise<boolean> {
