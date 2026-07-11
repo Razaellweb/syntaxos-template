@@ -1,4 +1,4 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
@@ -17,61 +17,42 @@ export async function middleware(request: NextRequest) {
 
   const supabase = createServerClient(url, key, {
     cookies: {
-      get(name: string) {
-        return request.cookies.get(name)?.value;
+      getAll() {
+        return request.cookies.getAll();
       },
-      set(name: string, value: string, options: CookieOptions) {
-        request.cookies.set({
-          name,
-          value,
-          ...options,
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) => {
+          request.cookies.set(name, value);
         });
         supabaseResponse = NextResponse.next({
           request: {
             headers: request.headers,
           },
         });
-        supabaseResponse.cookies.set({
-          name,
-          value,
-          ...options,
-        });
-      },
-      remove(name: string, options: CookieOptions) {
-        request.cookies.set({
-          name,
-          value: '',
-          ...options,
-        });
-        supabaseResponse = NextResponse.next({
-          request: {
-            headers: request.headers,
-          },
-        });
-        supabaseResponse.cookies.set({
-          name,
-          value: '',
-          ...options,
+        cookiesToSet.forEach(({ name, value, options }) => {
+          supabaseResponse.cookies.set(name, value, options);
         });
       },
     },
   });
 
-  const { data: { session } } = await supabase.auth.getSession();
+  // getUser() validates the JWT against Supabase; never trust getSession()
+  // alone in middleware.
+  const { data: { user } } = await supabase.auth.getUser();
 
   // Protect all dashboard and settings routes by default
-  const isProtected = request.nextUrl.pathname.startsWith("/dashboard") || 
+  const isProtected = request.nextUrl.pathname.startsWith("/dashboard") ||
                       request.nextUrl.pathname.startsWith("/settings");
 
-  if (isProtected && !session) {
+  if (isProtected && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
   // Auth routes (redirect to dashboard if already logged in)
-  const isAuthPath = request.nextUrl.pathname.startsWith("/login") || 
+  const isAuthPath = request.nextUrl.pathname.startsWith("/login") ||
                      request.nextUrl.pathname.startsWith("/signup");
 
-  if (isAuthPath && session) {
+  if (isAuthPath && user) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
