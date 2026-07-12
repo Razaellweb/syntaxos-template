@@ -17,6 +17,9 @@
 export class ServiceError extends Error {
   public readonly provider: string;
   public readonly originalError?: unknown;
+  /** HTTP status a route handler should return for this failure.
+   *  Use it in catch blocks: `{ status: error.status || 500 }`. */
+  public status = 500;
 
   constructor(message: string, provider: string, originalError?: unknown) {
     super(message);
@@ -31,6 +34,7 @@ export class ServiceAuthError extends ServiceError {
   constructor(provider: string, originalError?: unknown) {
     super(`[${provider}] authentication failed`, provider, originalError);
     this.name = "ServiceAuthError";
+    this.status = 401;
   }
 }
 
@@ -44,6 +48,7 @@ export class ServiceRateLimitError extends ServiceError {
   ) {
     super(`[${provider}] rate limit exceeded`, provider, originalError);
     this.name = "ServiceRateLimitError";
+    this.status = 429;
     this.retryAfterSeconds = retryAfterSeconds;
   }
 }
@@ -60,6 +65,7 @@ export class ServiceNotFoundError extends ServiceError {
       originalError,
     );
     this.name = "ServiceNotFoundError";
+    this.status = 404;
     this.resource = resource;
   }
 }
