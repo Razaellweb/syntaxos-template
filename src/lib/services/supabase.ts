@@ -13,9 +13,17 @@
  * Optional env var:
  *   - SUPABASE_SERVICE_ROLE_KEY  (server-side only; enables admin client)
  *
- * Usage:
+ * SCOPE — public/service data ONLY. The clients here carry NO user
+ * session (`persistSession: false`, no cookie storage), so RLS policies
+ * keyed on auth.uid() reject their writes and return zero rows on reads.
+ * This wrapper has NO auth methods. In authenticated API routes, use the
+ * session-bound client instead:
+ *   import { requireAuth } from "@/lib/auth/server";
+ *   const { user, supabase } = await requireAuth();
+ *
+ * Usage (public data only):
  *   import { supabase } from "@/lib/services/supabase";
- *   const { data, error } = await supabase.client.from("users").select();
+ *   const { data, error } = await supabase.client.from("public_stats").select();
  *   if (error) throw error;
  */
 
@@ -122,7 +130,9 @@ export class SupabaseService {
   }
 
   /**
-   * Run a callback against the public client and normalize any thrown error
+   * Run a callback against the public (anon) client — NO user session, so
+   * RLS-protected user data is invisible here; public data only — and
+   * normalize any thrown error
    * (or returned `{ error }`) into ServiceAuth/RateLimit/NotFound errors.
    * Use this when you'd rather catch normalized errors than check `{data, error}`.
    */
@@ -157,35 +167,14 @@ export class SupabaseService {
     return result!.data as T;
   }
 
-  /** Convenience: sign in with email + password. */
-  async signInWithPassword(email: string, password: string) {
-    const { data, error } = await this.client.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) normalizeError(error);
-    return data;
-  }
-
-  /** Convenience: sign up with email + password. */
-  async signUp(email: string, password: string) {
-    const { data, error } = await this.client.auth.signUp({ email, password });
-    if (error) normalizeError(error);
-    return data;
-  }
-
-  /** Convenience: sign out current session. */
-  async signOut() {
-    const { error } = await this.client.auth.signOut();
-    if (error) normalizeError(error);
-  }
-
-  /** Convenience: get current user (or null). */
-  async getUser() {
-    const { data, error } = await this.client.auth.getUser();
-    if (error) normalizeError(error);
-    return data.user;
-  }
+  // NOTE: this wrapper deliberately has NO auth methods (getUser,
+  // signInWithPassword, signUp, signOut). Its clients are created with
+  // `persistSession: false` and no cookie storage, so auth calls here
+  // either always return null (getUser) or "succeed" without ever
+  // persisting the session to cookies (signIn/signUp) — the user appears
+  // logged in for exactly one response. All authentication goes through
+  // the cookie-bound helpers in `@/lib/auth/server`:
+  //   const { user, supabase } = await requireAuth();
 }
 
 export const supabase = new SupabaseService();
