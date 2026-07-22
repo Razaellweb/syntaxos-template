@@ -3,6 +3,43 @@
   "version": "1.0",
   "description": "Registry of self-contained service wrappers available in this template. Each wrapper is a single TypeScript file under src/lib/services/<provider>.ts that wraps an official provider SDK. The backend agent reads this manifest when copying wrappers into a product to know which npm dependencies to add and which environment variables to collect from the user.",
   "wrappers": {
+    "definitive-flash": {
+      "file": "src/lib/services/definitive-flash.ts",
+      "category": "web3",
+      "display_name": "Definitive Flash",
+      "description": "Advanced onchain trading API \u2014 market, limit, stop, stop-loss, take-profit, TWAP and bracket orders routed across 200+ DEXs on EVM and Solana. Non-custodial quote -> sign -> submit flow with MEV-protected managed execution. Fetch-based (no official SDK).",
+      "sdk_package": null,
+      "deps": [],
+      "env": [
+        {
+          "name": "DEFINITIVE_FLASH_API_KEY",
+          "description": "Definitive Flash API key, sent as the x-definitive-api-key header. Provision one at flash.definitive.fi.",
+          "example": "dpka_xxxxxxxx_xxxx_xxxx_xxxx_xxxxxxxxxxxx",
+          "required": true,
+          "group": "Definitive Flash"
+        },
+        {
+          "name": "DEFINITIVE_FLASH_INTEGRATOR_FEE_BPS",
+          "description": "Optional default integrator fee in basis points, applied to quotes/orders that do not set flashIntegratorFeeBps.",
+          "example": "25",
+          "required": false,
+          "group": "Definitive Flash"
+        },
+        {
+          "name": "DEFINITIVE_FLASH_BASE_URL",
+          "description": "Optional override for the Flash API base URL.",
+          "example": "https://flash.definitive.fi/v1",
+          "required": false,
+          "group": "Definitive Flash"
+        }
+      ],
+      "exports": {
+        "class": "DefinitiveFlashService",
+        "singleton": "definitiveFlash"
+      },
+      "version": "1.0.0",
+      "generated_at": "2026-07-22T15:32:48Z"
+    },
     "supabase": {
       "file": "src/lib/services/supabase.ts",
       "category": "database",
