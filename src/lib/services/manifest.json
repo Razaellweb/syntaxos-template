@@ -1209,13 +1209,13 @@
     "robinhood": {
       "file": "src/lib/services/robinhood.ts",
       "category": "web3",
-      "display_name": "Robinhood Stock Tokens",
+      "display_name": "Robinhood Chain Stock Tokens",
       "description": "Tokenised US equities/ETFs on Robinhood Chain (4663): off-chain rhj REST API (assets, quotes, corporate actions) plus on-chain ERC-20/ERC-8056 balances, multiplier, oracle status and Chainlink price feeds via viem.",
       "sdk_package": null,
       "deps": ["viem@^2.21.0"],
       "env": [
-        { "name": "ROBINHOOD_API_BASE_URL", "description": "Base URL for the Robinhood rhj REST API (optional; public default).", "example": "https://api.robinhood.com/rhj", "required": false, "group": "Robinhood Stock Tokens" },
-        { "name": "ROBINHOOD_CHAIN_RPC_URL", "description": "Robinhood Chain JSON-RPC endpoint for on-chain reads (optional; public default).", "example": "https://rpc.mainnet.chain.robinhood.com", "required": false, "group": "Robinhood Stock Tokens" }
+        { "name": "ROBINHOOD_API_BASE_URL", "description": "Base URL for the Robinhood rhj REST API (optional; public default).", "example": "https://api.robinhood.com/rhj", "required": false, "group": "Robinhood Chain Stock Tokens" },
+        { "name": "ROBINHOOD_CHAIN_RPC_URL", "description": "Robinhood Chain JSON-RPC endpoint for on-chain reads (optional; public default).", "example": "https://rpc.mainnet.chain.robinhood.com", "required": false, "group": "Robinhood Chain Stock Tokens" }
       ],
       "exports": { "class": "RobinhoodService", "singleton": "robinhood" },
       "version": "1.0.0",
